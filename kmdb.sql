@@ -53,50 +53,63 @@ INSERT INTO movies VALUES
 INSERT INTO agents VALUES (1, 'Agent Smith');
 
 INSERT INTO actors VALUES
-(1, 'Christian Bale', NULL),
-(2, 'Michael Caine', NULL),
-(3, 'Liam Neeson', NULL),
-(4, 'Katie Holmes', NULL),
-(5, 'Gary Oldman', NULL),
-(6, 'Heath Ledger', NULL),
-(7, 'Aaron Eckhart', NULL),
-(8, 'Maggie Gyllenhaal', NULL),
-(9, 'Tom Hardy', NULL),
-(10, 'Joseph Gordon-Levitt', NULL),
-(11, 'Anne Hathaway', NULL);
+(1, 'Christian Bale', 1),
+(2, 'Michael Caine', 1),
+(3, 'Liam Neeson', 1),
+(4, 'Katie Holmes', 1),
+(5, 'Gary Oldman', 1),
+(6, 'Heath Ledger', 1),
+(7, 'Aaron Eckhart', 1),
+(8, 'Maggie Gyllenhaal', 1),
+(9, 'Tom Hardy', 1),
+(10, 'Joseph Gordon-Levitt', 1),
+(11, 'Anne Hathaway', 1);
 
 INSERT INTO roles (movie_id, actor_id, character_name, billing_order) VALUES
-(1,1,Bruce Wayne,1),
-(1,2,Alfred,2),
-(1,3,Ras Al Ghul,3),
-(1,4,Rachel Dawes,4),
-(1,5,Commissioner Gordon,5),
-(2,1,Bruce Wayne,1),
-(2,6,Joker,2),
-(2,7,Harvey Dent,3),
-(2,2,Alfred,4),
-(2,8,Rachel Dawes,5),
-(3,1,Bruce Wayne,1),
-(3,5,Commissioner Gordon,2),
-(3,9,Bane,3),
-(3,10,John Blake,4),
-(3,11,Selina Kyle,5);
+(1,1,'Bruce Wayne',1),
+(1,2,'Alfred',2),
+(1,3,'Ra''s Al Ghul',3),
+(1,4,'Rachel Dawes',4),
+(1,5,'Commissioner Gordon',5),
 
-UPDATE actors SET agent_id = 1 WHERE name = 'Christian Bale';
+(2,1,'Bruce Wayne',1),
+(2,6,'Joker',2),
+(2,7,'Harvey Dent',3),
+(2,2,'Alfred',4),
+(2,8,'Rachel Dawes',5),
+
+(3,1,'Bruce Wayne',1),
+(3,5,'Commissioner Gordon',2),
+(3,9,'Bane',3),
+(3,10,'John Blake',4),
+(3,11,'Selina Kyle',5);
 
 .print "Movies"
 .print "======"
+.print ""
 
-SELECT m.title, m.year_released, m.mpaa_rating, s.name FROM movies m JOIN studios s ON m.studio_id = s.id;
+SELECT m.title, m.year_released, m.mpaa_rating, s.name
+FROM movies m
+JOIN studios s ON m.studio_id = s.id
+ORDER BY m.year_released;
 
 .print ""
 .print "Top Cast"
 .print "========"
+.print ""
 
-SELECT m.title, a.name, r.character_name FROM roles r JOIN movies m ON r.movie_id = m.id JOIN actors a ON r.actor_id = a.id ORDER BY m.year_released, r.billing_order;
+SELECT m.title, a.name, r.character_name
+FROM roles r
+JOIN movies m ON r.movie_id = m.id
+JOIN actors a ON r.actor_id = a.id
+ORDER BY m.year_released, r.billing_order;
 
 .print ""
-.print "Represented by agent"
-.print "===================="
+.print "Agents and Their Actors"
+.print "======================="
+.print ""
 
-SELECT a.name FROM actors a WHERE a.agent_id = 1;
+SELECT ag.name, a.name
+FROM agents ag
+JOIN actors a ON a.agent_id = ag.id
+ORDER BY ag.name, a.name;
